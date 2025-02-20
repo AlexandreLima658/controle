@@ -1,0 +1,5 @@
+rootProject.name = 'controle'
+include 'domain'
+include 'application'
+include 'infra'
+

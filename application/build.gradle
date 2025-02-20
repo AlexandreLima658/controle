@@ -1,0 +1,23 @@
+plugins {
+    id("java")
+}
+
+group = "com.alexandre.controle.gastos"
+version = "0.0.1-SNAPSHOT"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(":domain")
+
+    testImplementation(platform("org.junit:junit-bom:5.10.0"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+
+    implementation ("jakarta.inject:jakarta.inject-api:2.0.1")
+}
+
+tasks.test {
+    useJUnitPlatform()
+}
