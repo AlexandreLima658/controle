@@ -4,6 +4,7 @@ package com.alexandre.controle.gastos.infra.rest.user;
 import com.alexandre.controle.gastos.application.user.commands.create.CreateUserInput;
 import com.alexandre.controle.gastos.application.user.commands.create.CreateUserOutput;
 import com.alexandre.controle.gastos.application.user.commands.create.CreateUserUseCase;
+import com.alexandre.controle.gastos.application.user.commands.delete.DeleteUserUseCase;
 import com.alexandre.controle.gastos.application.user.commands.update.UpdateUserOutput;
 import com.alexandre.controle.gastos.application.user.commands.update.UpdateUserUseCase;
 import com.alexandre.controle.gastos.application.user.query.filter.RetrieveUseByFilterInput;
@@ -23,15 +24,18 @@ public class UserController implements UserAPI{
     private final CreateUserUseCase createUserUseCase;
     private final RetrieveUseByFilterGatewayImpl retrieveUseByFilterGateway;
     private final UpdateUserUseCase updateUserUseCase;
+    private final DeleteUserUseCase deleteUserUseCase;
 
     public UserController(
             final CreateUserUseCase createUserUseCase,
             final RetrieveUseByFilterGatewayImpl retrieveUseByFilterGateway,
-            final UpdateUserUseCase updateUserUseCase
+            final UpdateUserUseCase updateUserUseCase,
+            final DeleteUserUseCase deleteUserUseCase
     ) {
         this.createUserUseCase = createUserUseCase;
         this.retrieveUseByFilterGateway = retrieveUseByFilterGateway;
         this.updateUserUseCase = updateUserUseCase;
+        this.deleteUserUseCase = deleteUserUseCase;
     }
 
     @Override
@@ -70,5 +74,10 @@ public class UserController implements UserAPI{
         final var updateInput = request.toInput(userId);
 
         return ResponseEntity.ok(this.updateUserUseCase.execute(updateInput));
+    }
+
+    @Override
+    public void delete(final Long userId) {
+        this.deleteUserUseCase.execute(userId);
     }
 }
