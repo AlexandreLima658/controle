@@ -1,10 +1,13 @@
-package com.alexandre.controle.gastos.infra.rest;
+package com.alexandre.controle.gastos.infra.rest.user;
 
 
 import com.alexandre.controle.gastos.application.user.commands.create.CreateUserInput;
 import com.alexandre.controle.gastos.application.user.commands.create.CreateUserOutput;
+import com.alexandre.controle.gastos.application.user.commands.update.UpdateUserOutput;
 import com.alexandre.controle.gastos.application.user.query.filter.RetrieveUserByFilterOutput;
+import com.alexandre.controle.gastos.domain.commons.exceptions.ErrorInfo;
 import com.alexandre.controle.gastos.domain.pagination.Pagination;
+import com.alexandre.controle.gastos.infra.rest.user.models.UpdateUserHttpRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -23,8 +26,8 @@ public interface UserAPI {
     @Operation(summary = "Create a new user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "User created successfully"),
-            @ApiResponse(responseCode = "422", description = "Validation failed"),
-            @ApiResponse(responseCode = "500", description = "Internal server error"),
+            @ApiResponse(responseCode = "422", description = "Validation failed", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
     })
     ResponseEntity<CreateUserOutput> create(@RequestBody CreateUserInput input);
 
@@ -33,8 +36,8 @@ public interface UserAPI {
     @Operation(summary = "Retrieve a list of users")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Users successfully recovered"),
-            @ApiResponse(responseCode = "422", description = "Validation failed"),
-            @ApiResponse(responseCode = "500", description = "Internal server error"),
+            @ApiResponse(responseCode = "422", description = "Validation failed",content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
     })
     ResponseEntity<Pagination<RetrieveUserByFilterOutput>> retrieveByFilter(
             @RequestParam(name = "page", required = false, defaultValue = "0") final int page,
@@ -42,4 +45,22 @@ public interface UserAPI {
             @RequestParam(name = "sort", required = false, defaultValue = "nome") final String sort,
             @RequestParam(name = "direction", required = false, defaultValue = "asc") final String direction
     );
+
+    @PutMapping(
+            value = "{userId}",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @Operation(summary = "Update a user by their identifier")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User updated successfully"),
+            @ApiResponse(responseCode = "422", description = "Validation failed", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+    })
+    ResponseEntity<UpdateUserOutput> update(
+            @PathVariable(name = "userId") Long userId,
+            @RequestBody UpdateUserHttpRequest request
+    );
+
+
 }
