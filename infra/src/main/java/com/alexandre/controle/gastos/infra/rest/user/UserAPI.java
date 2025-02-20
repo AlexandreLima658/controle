@@ -5,6 +5,7 @@ import com.alexandre.controle.gastos.application.user.commands.create.CreateUser
 import com.alexandre.controle.gastos.application.user.commands.create.CreateUserOutput;
 import com.alexandre.controle.gastos.application.user.commands.update.UpdateUserOutput;
 import com.alexandre.controle.gastos.application.user.query.filter.RetrieveUserByFilterOutput;
+import com.alexandre.controle.gastos.application.user.query.id.RetrieveUserByIdOutput;
 import com.alexandre.controle.gastos.domain.commons.exceptions.ErrorInfo;
 import com.alexandre.controle.gastos.domain.pagination.Pagination;
 import com.alexandre.controle.gastos.infra.rest.user.models.UpdateUserHttpRequest;
@@ -44,6 +45,17 @@ public interface UserAPI {
             @RequestParam(name = "per_page", required = false, defaultValue = "5") final int perPage,
             @RequestParam(name = "sort", required = false, defaultValue = "nome") final String sort,
             @RequestParam(name = "direction", required = false, defaultValue = "asc") final String direction
+    );
+
+    @GetMapping(value = "{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Retrieve user by identifier")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User successfully recovered "),
+            @ApiResponse(responseCode = "422", description = "Validation failed", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+    })
+    ResponseEntity<RetrieveUserByIdOutput> retrieveById(
+            @PathVariable(name = "userId") Long userId
     );
 
     @PutMapping(

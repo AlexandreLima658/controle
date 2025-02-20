@@ -9,8 +9,10 @@ import com.alexandre.controle.gastos.application.user.commands.update.UpdateUser
 import com.alexandre.controle.gastos.application.user.commands.update.UpdateUserUseCase;
 import com.alexandre.controle.gastos.application.user.query.filter.RetrieveUseByFilterInput;
 import com.alexandre.controle.gastos.application.user.query.filter.RetrieveUserByFilterOutput;
+import com.alexandre.controle.gastos.application.user.query.id.RetrieveUserByIdOutput;
 import com.alexandre.controle.gastos.domain.pagination.Pagination;
 import com.alexandre.controle.gastos.infra.gateways.user.RetrieveUseByFilterGatewayImpl;
+import com.alexandre.controle.gastos.infra.gateways.user.RetrieveUserByIdGatewayImpl;
 import com.alexandre.controle.gastos.infra.rest.user.models.UpdateUserHttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,17 +25,20 @@ public class UserController implements UserAPI{
 
     private final CreateUserUseCase createUserUseCase;
     private final RetrieveUseByFilterGatewayImpl retrieveUseByFilterGateway;
+    private final RetrieveUserByIdGatewayImpl retrieveUserByIdGateway;
     private final UpdateUserUseCase updateUserUseCase;
     private final DeleteUserUseCase deleteUserUseCase;
 
     public UserController(
             final CreateUserUseCase createUserUseCase,
             final RetrieveUseByFilterGatewayImpl retrieveUseByFilterGateway,
+            final RetrieveUserByIdGatewayImpl retrieveUserByIdGateway,
             final UpdateUserUseCase updateUserUseCase,
             final DeleteUserUseCase deleteUserUseCase
     ) {
         this.createUserUseCase = createUserUseCase;
         this.retrieveUseByFilterGateway = retrieveUseByFilterGateway;
+        this.retrieveUserByIdGateway = retrieveUserByIdGateway;
         this.updateUserUseCase = updateUserUseCase;
         this.deleteUserUseCase = deleteUserUseCase;
     }
@@ -69,6 +74,12 @@ public class UserController implements UserAPI{
     }
 
     @Override
+    public ResponseEntity<RetrieveUserByIdOutput> retrieveById(final Long userId) {
+        return ResponseEntity.ok(this.retrieveUserByIdGateway.execute(userId));
+    }
+
+    @Override
+    @Transactional
     public ResponseEntity<UpdateUserOutput> update(final Long userId, final UpdateUserHttpRequest request) {
 
         final var updateInput = request.toInput(userId);
@@ -77,6 +88,7 @@ public class UserController implements UserAPI{
     }
 
     @Override
+    @Transactional
     public void delete(final Long userId) {
         this.deleteUserUseCase.execute(userId);
     }
