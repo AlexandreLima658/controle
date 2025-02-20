@@ -1,4 +1,4 @@
-package com.alexandre.controle.gastos.infra.rest.user;
+package com.alexandre.controle.gastos.infra.rest;
 
 
 import com.alexandre.controle.gastos.domain.commons.exceptions.DomainException;
