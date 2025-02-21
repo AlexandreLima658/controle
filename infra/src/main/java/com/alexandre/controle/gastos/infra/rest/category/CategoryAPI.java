@@ -1,14 +1,14 @@
-package com.alexandre.controle.gastos.infra.rest.user;
+package com.alexandre.controle.gastos.infra.rest.category;
 
 
-import com.alexandre.controle.gastos.application.user.commands.create.CreateUserInput;
-import com.alexandre.controle.gastos.application.user.commands.create.CreateUserOutput;
-import com.alexandre.controle.gastos.application.user.commands.update.UpdateUserOutput;
-import com.alexandre.controle.gastos.application.user.query.filter.RetrieveUsersByFilterOutput;
-import com.alexandre.controle.gastos.application.user.query.id.RetrieveUserByIdOutput;
+import com.alexandre.controle.gastos.application.category.commands.create.CreateCategoryInput;
+import com.alexandre.controle.gastos.application.category.commands.create.CreateCategoryOutput;
+import com.alexandre.controle.gastos.application.category.commands.update.UpdateCategoryOutput;
+import com.alexandre.controle.gastos.application.category.query.filter.RetrieveCategoriesByFilterOutput;
+import com.alexandre.controle.gastos.application.category.query.id.RetrieveCategoryByIdOutput;
 import com.alexandre.controle.gastos.domain.commons.exceptions.ErrorInfo;
 import com.alexandre.controle.gastos.domain.pagination.Pagination;
-import com.alexandre.controle.gastos.infra.rest.user.models.UpdateUserHttpRequest;
+import com.alexandre.controle.gastos.infra.rest.category.models.UpdateCategoryHttpRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -19,69 +19,69 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping(value = "users")
-@Tag(name = "Users", description = "users")
-public interface UserAPI {
+@RequestMapping(value = "/categories")
+@Tag(name = "Categories", description = "categories")
+public interface CategoryAPI {
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @Operation(summary = "Create a new user")
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Create a new Category")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "User created successfully"),
+            @ApiResponse(responseCode = "201", description = "Category created successfully"),
             @ApiResponse(responseCode = "422", description = "Validation failed", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
     })
-    ResponseEntity<CreateUserOutput> create(@RequestBody CreateUserInput input);
+    ResponseEntity<CreateCategoryOutput> create(@RequestBody CreateCategoryInput input);
 
 
     @GetMapping
-    @Operation(summary = "Retrieve a list of users")
+    @Operation(summary = "Retrieve a list of categories")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Users successfully recovered"),
+            @ApiResponse(responseCode = "200", description = "Categories successfully recovered"),
             @ApiResponse(responseCode = "422", description = "Validation failed",content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
     })
-    ResponseEntity<Pagination<RetrieveUsersByFilterOutput>> retrieveByFilter(
+    ResponseEntity<Pagination<RetrieveCategoriesByFilterOutput>> retrieveByFilter(
             @RequestParam(name = "page", required = false, defaultValue = "0") final int page,
             @RequestParam(name = "per_page", required = false, defaultValue = "5") final int perPage,
             @RequestParam(name = "sort", required = false, defaultValue = "nome") final String sort,
             @RequestParam(name = "direction", required = false, defaultValue = "asc") final String direction
     );
 
-    @GetMapping(value = "{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @Operation(summary = "Retrieve user by identifier")
+    @GetMapping(value = "{categoryId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Retrieve category by identifier")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User successfully recovered "),
+            @ApiResponse(responseCode = "200", description = "Category successfully recovered "),
             @ApiResponse(responseCode = "422", description = "Validation failed", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
     })
-    ResponseEntity<RetrieveUserByIdOutput> retrieveById(
-            @PathVariable(name = "userId") Long userId
+    ResponseEntity<RetrieveCategoryByIdOutput> retrieveById(
+            @PathVariable(name = "categoryId") Long userId
     );
 
     @PutMapping(
-            value = "{userId}",
+            value = "{categoryId}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    @Operation(summary = "Update a user by their identifier")
+    @Operation(summary = "Update a category by their identifier")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User updated successfully"),
+            @ApiResponse(responseCode = "200", description = "Category updated successfully"),
             @ApiResponse(responseCode = "422", description = "Validation failed", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
     })
-    ResponseEntity<UpdateUserOutput> update(
-            @PathVariable(name = "userId") Long userId,
-            @RequestBody UpdateUserHttpRequest request
+    ResponseEntity<UpdateCategoryOutput> update(
+            @PathVariable(name = "categoryId") Long categoryId,
+            @RequestBody UpdateCategoryHttpRequest request
     );
 
-    @DeleteMapping(value = "{userId}")
+    @DeleteMapping(value = "{categoryId}")
     @Operation(summary = "Delete user by their identifier")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User deleted successfully"),
+            @ApiResponse(responseCode = "200", description = "Category deleted successfully"),
             @ApiResponse(responseCode = "422", description = "Validation failed", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
     })
-    void delete(@PathVariable(name = "userId") Long userId);
+    void delete(@PathVariable(value = "categoryId") final Long categoryId);
 
 
 }

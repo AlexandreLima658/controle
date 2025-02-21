@@ -14,7 +14,7 @@ public class NotFoundException extends DomainException {
             final Identifier<?> id
     ) {
 
-        final var error = "'%s' com ID '%s' not found!"
+        final var error = "'%s' with ID '%s' not found!"
                 .formatted(anAggregate.getSimpleName(), id.value());
 
         return new NotFoundException(new ErrorInfo(error));

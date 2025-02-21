@@ -1,14 +1,13 @@
 package com.alexandre.controle.gastos.infra.gateways.user;
 
-import com.alexandre.controle.gastos.application.user.query.filter.RetrieveUseByFilterGateway;
-import com.alexandre.controle.gastos.application.user.query.filter.RetrieveUseByFilterInput;
-import com.alexandre.controle.gastos.application.user.query.filter.RetrieveUserByFilterOutput;
+import com.alexandre.controle.gastos.application.user.query.filter.RetrieveUsersByFilterGateway;
+import com.alexandre.controle.gastos.application.user.query.filter.RetrieveUsersByFilterInput;
+import com.alexandre.controle.gastos.application.user.query.filter.RetrieveUsersByFilterOutput;
 import com.alexandre.controle.gastos.domain.pagination.Pagination;
 import com.alexandre.controle.gastos.infra.jpa.user.QUserJpaEntity;
 import com.alexandre.controle.gastos.infra.jpa.user.UserJpaEntity;
 import com.querydsl.jpa.impl.JPAQuery;
 import jakarta.persistence.EntityManager;
-import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
@@ -19,18 +18,18 @@ import java.util.Optional;
 import static org.springframework.data.domain.Sort.Direction.fromString;
 
 @Component
-public class RetrieveUseByFilterGatewayImpl implements RetrieveUseByFilterGateway {
+public class RetrieveUsersByFilterGatewayImpl implements RetrieveUsersByFilterGateway {
 
     private final EntityManager entityManager;
     private QUserJpaEntity qUserJpa = QUserJpaEntity.userJpaEntity;
 
-    public RetrieveUseByFilterGatewayImpl(final EntityManager entityManager) {
+    public RetrieveUsersByFilterGatewayImpl(final EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Pagination<RetrieveUserByFilterOutput> execute(final RetrieveUseByFilterInput input) {
+    public Pagination<RetrieveUsersByFilterOutput> execute(final RetrieveUsersByFilterInput input) {
 
         final var page = PageRequest.of(
                 input.page(),
@@ -60,8 +59,8 @@ public class RetrieveUseByFilterGatewayImpl implements RetrieveUseByFilterGatewa
         );
     }
 
-    private RetrieveUserByFilterOutput mapperFrom(final UserJpaEntity jpa) {
-        return new RetrieveUserByFilterOutput(
+    private RetrieveUsersByFilterOutput mapperFrom(final UserJpaEntity jpa) {
+        return new RetrieveUsersByFilterOutput(
                 jpa.getId(),
                 jpa.getName(),
                 jpa.getEmail()
