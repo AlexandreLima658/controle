@@ -4,6 +4,8 @@ package com.alexandre.controle.gastos.infra.rest.category;
 import com.alexandre.controle.gastos.application.category.commands.create.CreateCategoryInput;
 import com.alexandre.controle.gastos.application.category.commands.create.CreateCategoryOutput;
 import com.alexandre.controle.gastos.application.category.query.filter.RetrieveCategoriesByFilterOutput;
+import com.alexandre.controle.gastos.application.category.query.id.RetrieveCategoryByIdOutput;
+import com.alexandre.controle.gastos.application.user.query.id.RetrieveUserByIdOutput;
 import com.alexandre.controle.gastos.domain.commons.exceptions.ErrorInfo;
 import com.alexandre.controle.gastos.domain.pagination.Pagination;
 import io.swagger.v3.oas.annotations.Operation;
@@ -43,4 +45,17 @@ public interface CategoryAPI {
             @RequestParam(name = "sort", required = false, defaultValue = "nome") final String sort,
             @RequestParam(name = "direction", required = false, defaultValue = "asc") final String direction
     );
+
+    @GetMapping(value = "{categoryId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Retrieve category by identifier")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Category successfully recovered "),
+            @ApiResponse(responseCode = "422", description = "Validation failed", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+    })
+    ResponseEntity<RetrieveCategoryByIdOutput> retrieveById(
+            @PathVariable(name = "categoryId") Long userId
+    );
+
+
 }

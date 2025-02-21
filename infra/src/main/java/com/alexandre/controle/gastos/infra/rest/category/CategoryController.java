@@ -6,9 +6,12 @@ import com.alexandre.controle.gastos.application.category.commands.create.Create
 import com.alexandre.controle.gastos.application.category.commands.create.CreateCategoryUseCase;
 import com.alexandre.controle.gastos.application.category.query.filter.RetrieveCategoriesByFilterInput;
 import com.alexandre.controle.gastos.application.category.query.filter.RetrieveCategoriesByFilterOutput;
+import com.alexandre.controle.gastos.application.category.query.id.RetrieveCategoryByIdOutput;
 import com.alexandre.controle.gastos.domain.pagination.Pagination;
 import com.alexandre.controle.gastos.infra.gateways.category.RetrieveCategoriesByFilterGatewayImpl;
+import com.alexandre.controle.gastos.infra.gateways.category.RetrieveCategoryByIdGatewayImpl;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
@@ -18,13 +21,16 @@ public class CategoryController implements CategoryAPI {
 
     private final CreateCategoryUseCase createCategoryUseCase;
     private final RetrieveCategoriesByFilterGatewayImpl retrieveCategoriesByFilterGateway;
+    private final RetrieveCategoryByIdGatewayImpl retrieveCategoryByIdGateway;
 
     public CategoryController(
             final CreateCategoryUseCase createCategoryUseCase,
-            final RetrieveCategoriesByFilterGatewayImpl retrieveCategoriesByFilterGateway
+            final RetrieveCategoriesByFilterGatewayImpl retrieveCategoriesByFilterGateway,
+            final RetrieveCategoryByIdGatewayImpl retrieveCategoryByIdGateway
     ) {
         this.createCategoryUseCase = createCategoryUseCase;
         this.retrieveCategoriesByFilterGateway = retrieveCategoriesByFilterGateway;
+        this.retrieveCategoryByIdGateway = retrieveCategoryByIdGateway;
     }
 
     @Override
@@ -54,4 +60,13 @@ public class CategoryController implements CategoryAPI {
 
         return ResponseEntity.ok(this.retrieveCategoriesByFilterGateway.execute(input));
     }
+
+    @Override
+    @Transactional
+    public ResponseEntity<RetrieveCategoryByIdOutput> retrieveById(final Long userId) {
+
+        return ResponseEntity.ok(this.retrieveCategoryByIdGateway.execute(userId));
+    }
+
+
 }
