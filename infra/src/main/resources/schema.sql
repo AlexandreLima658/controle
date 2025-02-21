@@ -14,3 +14,16 @@ CREATE TABLE CONTROLE.categories (
 );
 
 
+CREATE TABLE CONTROLE.expenses (
+    id SERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    category_id BIGINT NOT NULL,
+    value_expense NUMERIC(10,2) NOT NULL,
+    description VARCHAR(255),
+    status VARCHAR(20) NOT NULL CHECK (status IN ('PAID', 'PENDING', 'LATE')),
+
+    CONSTRAINT FK_EXPENSE_USER FOREIGN KEY (user_id) REFERENCES CONTROLE.users(id),
+    CONSTRAINT FK_EXPENSE_CATEGORY FOREIGN KEY (category_id) REFERENCES CONTROLE.categories(id)
+);
+
+
