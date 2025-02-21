@@ -3,11 +3,12 @@ package com.alexandre.controle.gastos.infra.rest.category;
 
 import com.alexandre.controle.gastos.application.category.commands.create.CreateCategoryInput;
 import com.alexandre.controle.gastos.application.category.commands.create.CreateCategoryOutput;
+import com.alexandre.controle.gastos.application.category.commands.update.UpdateCategoryOutput;
 import com.alexandre.controle.gastos.application.category.query.filter.RetrieveCategoriesByFilterOutput;
 import com.alexandre.controle.gastos.application.category.query.id.RetrieveCategoryByIdOutput;
-import com.alexandre.controle.gastos.application.user.query.id.RetrieveUserByIdOutput;
 import com.alexandre.controle.gastos.domain.commons.exceptions.ErrorInfo;
 import com.alexandre.controle.gastos.domain.pagination.Pagination;
+import com.alexandre.controle.gastos.infra.rest.category.models.UpdateCategoryHttpRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -19,7 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping(value = "/categories")
-@Tag(name = "categories", description = "categories")
+@Tag(name = "Categories", description = "categories")
 public interface CategoryAPI {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -55,6 +56,22 @@ public interface CategoryAPI {
     })
     ResponseEntity<RetrieveCategoryByIdOutput> retrieveById(
             @PathVariable(name = "categoryId") Long userId
+    );
+
+    @PutMapping(
+            value = "{categoryId}",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @Operation(summary = "Update a category by their identifier")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Category updated successfully"),
+            @ApiResponse(responseCode = "422", description = "Validation failed", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+    })
+    ResponseEntity<UpdateCategoryOutput> update(
+            @PathVariable(name = "categoryId") Long categoryId,
+            @RequestBody UpdateCategoryHttpRequest request
     );
 
 
