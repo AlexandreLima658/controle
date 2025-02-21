@@ -4,7 +4,7 @@ package com.alexandre.controle.gastos.infra.rest.user;
 import com.alexandre.controle.gastos.application.user.commands.create.CreateUserInput;
 import com.alexandre.controle.gastos.application.user.commands.create.CreateUserOutput;
 import com.alexandre.controle.gastos.application.user.commands.update.UpdateUserOutput;
-import com.alexandre.controle.gastos.application.user.query.filter.RetrieveUserByFilterOutput;
+import com.alexandre.controle.gastos.application.user.query.filter.RetrieveUsersByFilterOutput;
 import com.alexandre.controle.gastos.application.user.query.id.RetrieveUserByIdOutput;
 import com.alexandre.controle.gastos.domain.commons.exceptions.ErrorInfo;
 import com.alexandre.controle.gastos.domain.pagination.Pagination;
@@ -40,7 +40,7 @@ public interface UserAPI {
             @ApiResponse(responseCode = "422", description = "Validation failed",content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
     })
-    ResponseEntity<Pagination<RetrieveUserByFilterOutput>> retrieveByFilter(
+    ResponseEntity<Pagination<RetrieveUsersByFilterOutput>> retrieveByFilter(
             @RequestParam(name = "page", required = false, defaultValue = "0") final int page,
             @RequestParam(name = "per_page", required = false, defaultValue = "5") final int perPage,
             @RequestParam(name = "sort", required = false, defaultValue = "nome") final String sort,

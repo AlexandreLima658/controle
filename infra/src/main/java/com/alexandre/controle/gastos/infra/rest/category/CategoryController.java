@@ -4,6 +4,10 @@ package com.alexandre.controle.gastos.infra.rest.category;
 import com.alexandre.controle.gastos.application.category.commands.create.CreateCategoryInput;
 import com.alexandre.controle.gastos.application.category.commands.create.CreateCategoryOutput;
 import com.alexandre.controle.gastos.application.category.commands.create.CreateCategoryUseCase;
+import com.alexandre.controle.gastos.application.category.query.filter.RetrieveCategoriesByFilterInput;
+import com.alexandre.controle.gastos.application.category.query.filter.RetrieveCategoriesByFilterOutput;
+import com.alexandre.controle.gastos.domain.pagination.Pagination;
+import com.alexandre.controle.gastos.infra.gateways.category.RetrieveCategoriesByFilterGatewayImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,10 +16,15 @@ import java.net.URI;
 @RestController
 public class CategoryController implements CategoryAPI {
 
-   private final CreateCategoryUseCase createCategoryUseCase;
+    private final CreateCategoryUseCase createCategoryUseCase;
+    private final RetrieveCategoriesByFilterGatewayImpl retrieveCategoriesByFilterGateway;
 
-    public CategoryController(final CreateCategoryUseCase createCategoryUseCase) {
+    public CategoryController(
+            final CreateCategoryUseCase createCategoryUseCase,
+            final RetrieveCategoriesByFilterGatewayImpl retrieveCategoriesByFilterGateway
+    ) {
         this.createCategoryUseCase = createCategoryUseCase;
+        this.retrieveCategoriesByFilterGateway = retrieveCategoriesByFilterGateway;
     }
 
     @Override
@@ -26,5 +35,23 @@ public class CategoryController implements CategoryAPI {
         final var uri = "/categories/" + out.id();
 
         return ResponseEntity.created(URI.create(uri)).body(out);
+    }
+
+    @Override
+    public ResponseEntity<Pagination<RetrieveCategoriesByFilterOutput>> retrieveByFilter(
+            final int page,
+            final int perPage,
+            final String sort,
+            final String direction
+    ) {
+
+        final var input = new RetrieveCategoriesByFilterInput(
+                page,
+                perPage,
+                sort,
+                direction
+        );
+
+        return ResponseEntity.ok(this.retrieveCategoriesByFilterGateway.execute(input));
     }
 }
