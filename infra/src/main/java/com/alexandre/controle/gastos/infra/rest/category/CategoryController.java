@@ -4,12 +4,12 @@ package com.alexandre.controle.gastos.infra.rest.category;
 import com.alexandre.controle.gastos.application.category.commands.create.CreateCategoryInput;
 import com.alexandre.controle.gastos.application.category.commands.create.CreateCategoryOutput;
 import com.alexandre.controle.gastos.application.category.commands.create.CreateCategoryUseCase;
+import com.alexandre.controle.gastos.application.category.commands.delete.DeleteCategoryUseCase;
 import com.alexandre.controle.gastos.application.category.commands.update.UpdateCategoryOutput;
 import com.alexandre.controle.gastos.application.category.commands.update.UpdateCategoryUseCase;
 import com.alexandre.controle.gastos.application.category.query.filter.RetrieveCategoriesByFilterInput;
 import com.alexandre.controle.gastos.application.category.query.filter.RetrieveCategoriesByFilterOutput;
 import com.alexandre.controle.gastos.application.category.query.id.RetrieveCategoryByIdOutput;
-import com.alexandre.controle.gastos.application.user.commands.update.UpdateUserOutput;
 import com.alexandre.controle.gastos.domain.pagination.Pagination;
 import com.alexandre.controle.gastos.infra.gateways.category.RetrieveCategoriesByFilterGatewayImpl;
 import com.alexandre.controle.gastos.infra.gateways.category.RetrieveCategoryByIdGatewayImpl;
@@ -25,17 +25,20 @@ public class CategoryController implements CategoryAPI {
 
     private final CreateCategoryUseCase createCategoryUseCase;
     private final UpdateCategoryUseCase updateCategoryUseCase;
+    private final DeleteCategoryUseCase deleteCategoryUseCase;
     private final RetrieveCategoriesByFilterGatewayImpl retrieveCategoriesByFilterGateway;
     private final RetrieveCategoryByIdGatewayImpl retrieveCategoryByIdGateway;
 
     public CategoryController(
             final CreateCategoryUseCase createCategoryUseCase,
             final UpdateCategoryUseCase updateCategoryUseCase,
+            final DeleteCategoryUseCase deleteCategoryUseCase,
             final RetrieveCategoriesByFilterGatewayImpl retrieveCategoriesByFilterGateway,
             final RetrieveCategoryByIdGatewayImpl retrieveCategoryByIdGateway
     ) {
         this.createCategoryUseCase = createCategoryUseCase;
         this.updateCategoryUseCase = updateCategoryUseCase;
+        this.deleteCategoryUseCase = deleteCategoryUseCase;
         this.retrieveCategoriesByFilterGateway = retrieveCategoriesByFilterGateway;
         this.retrieveCategoryByIdGateway = retrieveCategoryByIdGateway;
     }
@@ -83,5 +86,10 @@ public class CategoryController implements CategoryAPI {
         return ResponseEntity.ok(this.updateCategoryUseCase.execute(newCategory));
     }
 
+    @Override
+    @Transactional
+    public void delete(final Long categoryId) {
+        this.deleteCategoryUseCase.execute(categoryId);
+    }
 
 }

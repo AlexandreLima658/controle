@@ -74,5 +74,14 @@ public interface CategoryAPI {
             @RequestBody UpdateCategoryHttpRequest request
     );
 
+    @DeleteMapping(value = "{categoryId}")
+    @Operation(summary = "Delete user by their identifier")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Category deleted successfully"),
+            @ApiResponse(responseCode = "422", description = "Validation failed", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+    })
+    void delete(@PathVariable(value = "categoryId") final Long categoryId);
+
 
 }

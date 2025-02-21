@@ -32,7 +32,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     @Override
     public void deleteById(final CategoryId categoryId) {
-        this.repository.findById(categoryId.value());
+        this.repository.deleteById(categoryId.value());
     }
 
     @Override
