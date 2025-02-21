@@ -20,8 +20,10 @@ public interface UserJpaMapper {
 
     static User toAggregate(final UserJpaEntity jpa) {
 
+        final var userId = UserId.from(jpa.getId());
+
         return UserFactory.create(
-                UserId.from(jpa.getId()),
+                userId,
                 jpa.getName(),
                 jpa.getEmail(),
                 jpa.getPassword()
