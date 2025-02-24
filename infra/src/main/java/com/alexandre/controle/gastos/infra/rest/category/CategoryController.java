@@ -73,9 +73,9 @@ public class CategoryController implements CategoryAPI {
 
     @Override
     @Transactional
-    public ResponseEntity<RetrieveCategoryByIdOutput> retrieveById(final Long userId) {
+    public ResponseEntity<RetrieveCategoryByIdOutput> retrieveById(final Long categoryId) {
 
-        return ResponseEntity.ok(this.retrieveCategoryByIdGateway.execute(userId));
+        return ResponseEntity.ok(this.retrieveCategoryByIdGateway.execute(categoryId));
     }
 
     @Override
