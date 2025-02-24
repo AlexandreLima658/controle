@@ -7,6 +7,10 @@ import com.alexandre.controle.gastos.application.expense.commands.create.CreateE
 import com.alexandre.controle.gastos.application.expense.commands.delete.DeleteExpenseUseCase;
 import com.alexandre.controle.gastos.application.expense.commands.update.UpdateExpenseOutput;
 import com.alexandre.controle.gastos.application.expense.commands.update.UpdateExpenseUseCase;
+import com.alexandre.controle.gastos.application.expense.query.filter.RetrieveExpensesByFilterInput;
+import com.alexandre.controle.gastos.application.expense.query.filter.RetrieveExpensesByFilterOutput;
+import com.alexandre.controle.gastos.domain.pagination.Pagination;
+import com.alexandre.controle.gastos.infra.gateways.expense.RetrieveExpensesByFilterGatewayImpl;
 import com.alexandre.controle.gastos.infra.rest.expense.models.UpdateExpenseHttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,15 +24,18 @@ public class ExpenseController implements ExpenseAPI{
     private final CreateExpenseUseCase createExpenseUseCase;
     private final UpdateExpenseUseCase updateExpenseUseCase;
     private final DeleteExpenseUseCase deleteExpenseUseCase;
+    private final RetrieveExpensesByFilterGatewayImpl retrieveExpensesByFilterGateway;
 
     public ExpenseController(
             final CreateExpenseUseCase createExpenseUseCase,
             final UpdateExpenseUseCase updateExpenseUseCase,
-            final DeleteExpenseUseCase deleteExpenseUseCase
+            final DeleteExpenseUseCase deleteExpenseUseCase,
+            final RetrieveExpensesByFilterGatewayImpl retrieveExpensesByFilterGateway
     ) {
         this.createExpenseUseCase = createExpenseUseCase;
         this.updateExpenseUseCase = updateExpenseUseCase;
         this.deleteExpenseUseCase = deleteExpenseUseCase;
+        this.retrieveExpensesByFilterGateway = retrieveExpensesByFilterGateway;
     }
 
     @Override
@@ -54,5 +61,24 @@ public class ExpenseController implements ExpenseAPI{
     @Override
     public void delete(final Long expenseId) {
         this.deleteExpenseUseCase.execute(expenseId);
+    }
+
+    @Override
+    @Transactional
+    public ResponseEntity<Pagination<RetrieveExpensesByFilterOutput>> retrieveByFilter(
+            final int page,
+            final int perPage,
+            final String sort,
+            final String direction
+    ) {
+
+        final var input = new RetrieveExpensesByFilterInput(
+                page,
+                perPage,
+                sort,
+                direction
+        );
+
+        return ResponseEntity.ok(this.retrieveExpensesByFilterGateway.execute(input));
     }
 }

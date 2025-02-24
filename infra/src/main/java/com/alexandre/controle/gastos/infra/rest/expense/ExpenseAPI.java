@@ -1,13 +1,11 @@
 package com.alexandre.controle.gastos.infra.rest.expense;
 
-import com.alexandre.controle.gastos.application.category.commands.create.CreateCategoryInput;
-import com.alexandre.controle.gastos.application.category.commands.create.CreateCategoryOutput;
-import com.alexandre.controle.gastos.application.category.commands.update.UpdateCategoryOutput;
 import com.alexandre.controle.gastos.application.expense.commands.create.CreateExpenseInput;
 import com.alexandre.controle.gastos.application.expense.commands.create.CreateExpenseOutput;
 import com.alexandre.controle.gastos.application.expense.commands.update.UpdateExpenseOutput;
+import com.alexandre.controle.gastos.application.expense.query.filter.RetrieveExpensesByFilterOutput;
 import com.alexandre.controle.gastos.domain.commons.exceptions.ErrorInfo;
-import com.alexandre.controle.gastos.infra.rest.category.models.UpdateCategoryHttpRequest;
+import com.alexandre.controle.gastos.domain.pagination.Pagination;
 import com.alexandre.controle.gastos.infra.rest.expense.models.UpdateExpenseHttpRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -56,6 +54,20 @@ public interface ExpenseAPI {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
     })
     void delete(@PathVariable(name = "expenseId") final Long expenseId);
+
+    @GetMapping
+    @Operation(summary = "Retrieve a list of expenses")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Expenses successfully recovered"),
+            @ApiResponse(responseCode = "422", description = "Validation failed",content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+    })
+    ResponseEntity<Pagination<RetrieveExpensesByFilterOutput>> retrieveByFilter(
+            @RequestParam(name = "page", required = false, defaultValue = "0") final int page,
+            @RequestParam(name = "per_page", required = false, defaultValue = "5") final int perPage,
+            @RequestParam(name = "sort", required = false, defaultValue = "nome") final String sort,
+            @RequestParam(name = "direction", required = false, defaultValue = "asc") final String direction
+    );
 
 
 }
