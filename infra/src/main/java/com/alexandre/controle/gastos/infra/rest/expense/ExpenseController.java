@@ -4,6 +4,7 @@ package com.alexandre.controle.gastos.infra.rest.expense;
 import com.alexandre.controle.gastos.application.expense.commands.create.CreateExpenseInput;
 import com.alexandre.controle.gastos.application.expense.commands.create.CreateExpenseOutput;
 import com.alexandre.controle.gastos.application.expense.commands.create.CreateExpenseUseCase;
+import com.alexandre.controle.gastos.application.expense.commands.delete.DeleteExpenseUseCase;
 import com.alexandre.controle.gastos.application.expense.commands.update.UpdateExpenseOutput;
 import com.alexandre.controle.gastos.application.expense.commands.update.UpdateExpenseUseCase;
 import com.alexandre.controle.gastos.infra.rest.expense.models.UpdateExpenseHttpRequest;
@@ -18,13 +19,16 @@ public class ExpenseController implements ExpenseAPI{
 
     private final CreateExpenseUseCase createExpenseUseCase;
     private final UpdateExpenseUseCase updateExpenseUseCase;
+    private final DeleteExpenseUseCase deleteExpenseUseCase;
 
     public ExpenseController(
             final CreateExpenseUseCase createExpenseUseCase,
-            final UpdateExpenseUseCase updateExpenseUseCase
+            final UpdateExpenseUseCase updateExpenseUseCase,
+            final DeleteExpenseUseCase deleteExpenseUseCase
     ) {
         this.createExpenseUseCase = createExpenseUseCase;
         this.updateExpenseUseCase = updateExpenseUseCase;
+        this.deleteExpenseUseCase = deleteExpenseUseCase;
     }
 
     @Override
@@ -45,5 +49,10 @@ public class ExpenseController implements ExpenseAPI{
         final var updateExpense = request.toInput(expenseId);
 
         return ResponseEntity.ok(this.updateExpenseUseCase.execute(updateExpense));
+    }
+
+    @Override
+    public void delete(final Long expenseId) {
+        this.deleteExpenseUseCase.execute(expenseId);
     }
 }

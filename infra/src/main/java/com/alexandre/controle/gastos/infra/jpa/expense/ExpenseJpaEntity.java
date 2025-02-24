@@ -2,7 +2,6 @@ package com.alexandre.controle.gastos.infra.jpa.expense;
 
 
 import com.alexandre.controle.gastos.domain.expense.Expense;
-import com.alexandre.controle.gastos.domain.user.User;
 import com.alexandre.controle.gastos.infra.jpa.category.CategoryJpaEntity;
 import com.alexandre.controle.gastos.infra.jpa.user.UserJpaEntity;
 import jakarta.persistence.*;

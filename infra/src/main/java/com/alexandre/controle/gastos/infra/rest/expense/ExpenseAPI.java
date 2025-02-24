@@ -48,4 +48,14 @@ public interface ExpenseAPI {
             @RequestBody UpdateExpenseHttpRequest request
     );
 
+    @DeleteMapping(value = "{expenseId}")
+    @Operation(summary = "Deleted a expense by their identifier")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Expense deleted successfully"),
+            @ApiResponse(responseCode = "422", description = "Validation failed", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+    })
+    void delete(@PathVariable(name = "expenseId") final Long expenseId);
+
+
 }
