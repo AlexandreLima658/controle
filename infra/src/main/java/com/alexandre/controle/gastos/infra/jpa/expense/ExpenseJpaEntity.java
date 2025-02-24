@@ -9,6 +9,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "expenses")
@@ -30,8 +31,8 @@ public class ExpenseJpaEntity {
     @Column(name = "description")
     private String description;
 
-    @Enumerated(EnumType.STRING)
-    private Expense.PaymentStatus status;
+    @Column(name = "payment_date")
+    private LocalDate paymentDate;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

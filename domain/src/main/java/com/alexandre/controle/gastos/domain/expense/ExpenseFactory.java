@@ -1,6 +1,7 @@
 package com.alexandre.controle.gastos.domain.expense;
 
 import com.alexandre.controle.gastos.domain.category.attributes.CategoryId;
+import com.alexandre.controle.gastos.domain.commons.attributes.MonetaryValue;
 import com.alexandre.controle.gastos.domain.expense.attributes.ExpenseId;
 import com.alexandre.controle.gastos.domain.user.attributes.UserId;
 
@@ -21,7 +22,7 @@ public interface ExpenseFactory {
                 expenseId,
                 userId,
                 categoryId,
-                value,
+                new MonetaryValue(value),
                 description,
                 status
         );
@@ -40,7 +41,7 @@ public interface ExpenseFactory {
                 expenseId,
                 userId,
                 categoryId,
-                value,
+                new MonetaryValue(value),
                 description,
                 Expense.PaymentStatus.PENDING
         );
