@@ -4,6 +4,7 @@ import com.alexandre.controle.gastos.application.expense.commands.create.CreateE
 import com.alexandre.controle.gastos.application.expense.commands.create.CreateExpenseOutput;
 import com.alexandre.controle.gastos.application.expense.commands.update.UpdateExpenseOutput;
 import com.alexandre.controle.gastos.application.expense.query.filter.RetrieveExpensesByFilterOutput;
+import com.alexandre.controle.gastos.application.expense.query.id.RetrieveExpenseByIdOutput;
 import com.alexandre.controle.gastos.domain.commons.exceptions.ErrorInfo;
 import com.alexandre.controle.gastos.domain.pagination.Pagination;
 import com.alexandre.controle.gastos.infra.rest.expense.models.UpdateExpenseHttpRequest;
@@ -67,6 +68,17 @@ public interface ExpenseAPI {
             @RequestParam(name = "per_page", required = false, defaultValue = "5") final int perPage,
             @RequestParam(name = "sort", required = false, defaultValue = "nome") final String sort,
             @RequestParam(name = "direction", required = false, defaultValue = "asc") final String direction
+    );
+
+    @GetMapping(value = "{expenseId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Retrieve expense by identifier")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Expense successfully recovered "),
+            @ApiResponse(responseCode = "422", description = "Validation failed", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+    })
+    ResponseEntity<RetrieveExpenseByIdOutput> retrieveById(
+            @PathVariable(name = "expenseId") final Long expenseId
     );
 
 

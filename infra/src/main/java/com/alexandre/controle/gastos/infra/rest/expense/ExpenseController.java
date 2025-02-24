@@ -9,7 +9,9 @@ import com.alexandre.controle.gastos.application.expense.commands.update.UpdateE
 import com.alexandre.controle.gastos.application.expense.commands.update.UpdateExpenseUseCase;
 import com.alexandre.controle.gastos.application.expense.query.filter.RetrieveExpensesByFilterInput;
 import com.alexandre.controle.gastos.application.expense.query.filter.RetrieveExpensesByFilterOutput;
+import com.alexandre.controle.gastos.application.expense.query.id.RetrieveExpenseByIdOutput;
 import com.alexandre.controle.gastos.domain.pagination.Pagination;
+import com.alexandre.controle.gastos.infra.gateways.expense.RetrieveExpenseByIdGatewayImpl;
 import com.alexandre.controle.gastos.infra.gateways.expense.RetrieveExpensesByFilterGatewayImpl;
 import com.alexandre.controle.gastos.infra.rest.expense.models.UpdateExpenseHttpRequest;
 import org.springframework.http.ResponseEntity;
@@ -25,17 +27,20 @@ public class ExpenseController implements ExpenseAPI{
     private final UpdateExpenseUseCase updateExpenseUseCase;
     private final DeleteExpenseUseCase deleteExpenseUseCase;
     private final RetrieveExpensesByFilterGatewayImpl retrieveExpensesByFilterGateway;
+    private final RetrieveExpenseByIdGatewayImpl retrieveExpenseByIdGateway;
 
     public ExpenseController(
             final CreateExpenseUseCase createExpenseUseCase,
             final UpdateExpenseUseCase updateExpenseUseCase,
             final DeleteExpenseUseCase deleteExpenseUseCase,
-            final RetrieveExpensesByFilterGatewayImpl retrieveExpensesByFilterGateway
+            final RetrieveExpensesByFilterGatewayImpl retrieveExpensesByFilterGateway,
+            final RetrieveExpenseByIdGatewayImpl retrieveExpenseByIdGateway
     ) {
         this.createExpenseUseCase = createExpenseUseCase;
         this.updateExpenseUseCase = updateExpenseUseCase;
         this.deleteExpenseUseCase = deleteExpenseUseCase;
         this.retrieveExpensesByFilterGateway = retrieveExpensesByFilterGateway;
+        this.retrieveExpenseByIdGateway = retrieveExpenseByIdGateway;
     }
 
     @Override
@@ -80,5 +85,11 @@ public class ExpenseController implements ExpenseAPI{
         );
 
         return ResponseEntity.ok(this.retrieveExpensesByFilterGateway.execute(input));
+    }
+
+    @Override
+    @Transactional
+    public ResponseEntity<RetrieveExpenseByIdOutput> retrieveById(final Long expenseId) {
+        return ResponseEntity.ok(this.retrieveExpenseByIdGateway.execute(expenseId));
     }
 }
