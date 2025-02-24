@@ -6,6 +6,7 @@ import com.alexandre.controle.gastos.domain.expense.attributes.ExpenseId;
 import com.alexandre.controle.gastos.domain.user.attributes.UserId;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 public interface ExpenseFactory {
 
@@ -15,7 +16,7 @@ public interface ExpenseFactory {
             final CategoryId categoryId,
             final BigDecimal value,
             final String description,
-            final Expense.PaymentStatus status
+            final LocalDate paymentDate
     ) {
 
         return new Expense(
@@ -24,7 +25,7 @@ public interface ExpenseFactory {
                 categoryId,
                 new MonetaryValue(value),
                 description,
-                status
+                paymentDate
         );
     }
 
@@ -32,7 +33,9 @@ public interface ExpenseFactory {
             final UserId userId,
             final CategoryId categoryId,
             final BigDecimal value,
-            final String description
+            final String description,
+            final LocalDate paymentDate
+
     ) {
 
         final var expenseId = ExpenseId.createWithNullValue();
@@ -43,7 +46,8 @@ public interface ExpenseFactory {
                 categoryId,
                 new MonetaryValue(value),
                 description,
-                Expense.PaymentStatus.PENDING
+                paymentDate
+
         );
     }
 }

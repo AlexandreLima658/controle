@@ -7,6 +7,7 @@ import com.alexandre.controle.gastos.domain.expense.attributes.ExpenseId;
 import com.alexandre.controle.gastos.domain.user.attributes.UserId;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 public class Expense extends AggregateRoot<ExpenseId> {
 
@@ -14,7 +15,7 @@ public class Expense extends AggregateRoot<ExpenseId> {
     private CategoryId categoryId;
     private MonetaryValue value;
     private String description;
-    private PaymentStatus status;
+    private LocalDate paymentDate;
 
     Expense(
             final ExpenseId expenseId,
@@ -22,14 +23,14 @@ public class Expense extends AggregateRoot<ExpenseId> {
             final CategoryId categoryId,
             final MonetaryValue value,
             final String description,
-            final PaymentStatus status
+            final LocalDate paymentDate
     ) {
         super(expenseId);
         this.userId = userId;
         this.categoryId = categoryId;
         this.value = value;
         this.description = description;
-        this.status = status;
+        this.paymentDate = paymentDate;
     }
 
     public void update(
@@ -37,13 +38,13 @@ public class Expense extends AggregateRoot<ExpenseId> {
         final Long categoryId,
         final BigDecimal value,
         final String description,
-        final PaymentStatus status
+        final LocalDate paymentDate
     ) {
         this.userId = UserId.from(userId);
         this.categoryId = CategoryId.from(categoryId);
         this.value = new MonetaryValue(value);
         this.description = description;
-        this.status = status;
+        this.paymentDate = paymentDate;
 
     }
 
@@ -63,13 +64,8 @@ public class Expense extends AggregateRoot<ExpenseId> {
         return description;
     }
 
-    public PaymentStatus getStatus() {
-        return status;
+    public LocalDate getPaymentDate() {
+        return paymentDate;
     }
 
-    public enum PaymentStatus {
-        PAID,
-        PENDING,
-        LATE
-    }
 }

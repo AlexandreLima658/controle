@@ -2,6 +2,7 @@ package com.alexandre.controle.gastos.domain;
 
 import com.alexandre.controle.gastos.domain.commons.attributes.Identifier;
 import com.alexandre.controle.gastos.domain.commons.entites.AggregateRoot;
+import com.alexandre.controle.gastos.domain.expense.attributes.ExpenseId;
 
 import java.util.Optional;
 

@@ -30,7 +30,7 @@ public class UpdateExpenseUseCase extends UseCase<UpdateExpenseInput, UpdateExpe
                 input.categoryId(),
                 input.value(),
                 input.description(),
-                input.status()
+                input.paymentDate()
         );
 
         final var id = repository.persist(updatedExpense);

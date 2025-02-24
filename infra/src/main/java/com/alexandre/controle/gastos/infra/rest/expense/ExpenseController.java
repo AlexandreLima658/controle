@@ -64,6 +64,7 @@ public class ExpenseController implements ExpenseAPI{
     }
 
     @Override
+    @Transactional
     public void delete(final Long expenseId) {
         this.deleteExpenseUseCase.execute(expenseId);
     }

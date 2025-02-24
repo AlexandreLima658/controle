@@ -26,7 +26,8 @@ public class CreateExpenseUseCase extends UseCase<CreateExpenseInput, CreateExpe
                 userId,
                 categoryId,
                 input.value(),
-                input.description()
+                input.description(),
+                input.paymentDate()
 
         );
 

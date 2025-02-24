@@ -20,10 +20,18 @@ CREATE TABLE CONTROLE.expenses (
     category_id BIGINT NOT NULL,
     value_expense NUMERIC(10,2) NOT NULL,
     description VARCHAR(255),
-    status VARCHAR(20) NOT NULL CHECK (status IN ('PAID', 'PENDING', 'LATE')),
+    payment_date DATE,
 
     CONSTRAINT FK_EXPENSE_USER FOREIGN KEY (user_id) REFERENCES CONTROLE.users(id),
     CONSTRAINT FK_EXPENSE_CATEGORY FOREIGN KEY (category_id) REFERENCES CONTROLE.categories(id)
+);
+
+CREATE TABLE CONTROLE.payments (
+    id SERIAL PRIMARY KEY,
+    payment_date DATE NOT NULL,
+    expense_id BIGINT NOT NULL,
+
+    CONSTRAINT FK_PAYMENT_EXPENSE FOREIGN KEY (expense_id) REFERENCES CONTROLE.expenses(id)
 );
 
 
