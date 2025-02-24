@@ -31,6 +31,21 @@ public class Expense extends AggregateRoot<ExpenseId> {
         this.status = status;
     }
 
+    public void update(
+        final Long userId,
+        final Long categoryId,
+        final BigDecimal value,
+        final String description,
+        final PaymentStatus status
+    ) {
+        this.userId = UserId.from(userId);
+        this.categoryId = CategoryId.from(categoryId);
+        this.value = value;
+        this.description = description;
+        this.status = status;
+
+    }
+
     public UserId getUserId() {
         return userId;
     }
