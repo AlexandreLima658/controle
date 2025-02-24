@@ -1,6 +1,8 @@
 package com.alexandre.controle.gastos.domain.user;
 
+import com.alexandre.controle.gastos.domain.commons.attributes.Email;
 import com.alexandre.controle.gastos.domain.user.attributes.UserId;
+import com.alexandre.controle.gastos.domain.user.attributes.UserName;
 
 public interface UserFactory {
 
@@ -12,16 +14,16 @@ public interface UserFactory {
     ) {
         return new User(
                 userId,
-                name,
-                email,
+                new UserName(name),
+                new Email(email),
                 password
         );
     }
 
 
     static User create(
-            final String name,
-            final String email,
+            final UserName name,
+            final Email email,
             final String password
     ){
         final var userId = UserId.createWithNullValue();

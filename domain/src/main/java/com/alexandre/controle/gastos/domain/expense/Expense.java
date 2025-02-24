@@ -1,6 +1,7 @@
 package com.alexandre.controle.gastos.domain.expense;
 
 import com.alexandre.controle.gastos.domain.category.attributes.CategoryId;
+import com.alexandre.controle.gastos.domain.commons.attributes.MonetaryValue;
 import com.alexandre.controle.gastos.domain.commons.entites.AggregateRoot;
 import com.alexandre.controle.gastos.domain.expense.attributes.ExpenseId;
 import com.alexandre.controle.gastos.domain.user.attributes.UserId;
@@ -11,7 +12,7 @@ public class Expense extends AggregateRoot<ExpenseId> {
 
     private UserId userId;
     private CategoryId categoryId;
-    private BigDecimal value;
+    private MonetaryValue value;
     private String description;
     private PaymentStatus status;
 
@@ -19,7 +20,7 @@ public class Expense extends AggregateRoot<ExpenseId> {
             final ExpenseId expenseId,
             final UserId userId,
             final CategoryId categoryId,
-            final BigDecimal value,
+            final MonetaryValue value,
             final String description,
             final PaymentStatus status
     ) {
@@ -40,7 +41,7 @@ public class Expense extends AggregateRoot<ExpenseId> {
     ) {
         this.userId = UserId.from(userId);
         this.categoryId = CategoryId.from(categoryId);
-        this.value = value;
+        this.value = new MonetaryValue(value);
         this.description = description;
         this.status = status;
 
@@ -54,7 +55,7 @@ public class Expense extends AggregateRoot<ExpenseId> {
         return categoryId;
     }
 
-    public BigDecimal getValue() {
+    public MonetaryValue getValue() {
         return value;
     }
 

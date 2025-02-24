@@ -20,7 +20,7 @@ public interface ExpenseJpaMapper {
 
         return new ExpenseJpaEntity(
                 expense.id().value(),
-                expense.getValue(),
+                expense.getValue().value(),
                 expense.getDescription(),
                 expense.getStatus(),
                 user,

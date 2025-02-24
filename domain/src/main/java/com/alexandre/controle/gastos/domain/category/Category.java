@@ -2,6 +2,7 @@ package com.alexandre.controle.gastos.domain.category;
 
 import com.alexandre.controle.gastos.domain.category.attributes.CategoryId;
 import com.alexandre.controle.gastos.domain.commons.entites.AggregateRoot;
+import com.alexandre.controle.gastos.domain.commons.exceptions.DomainException;
 
 public class Category extends AggregateRoot<CategoryId> {
 
@@ -14,14 +15,20 @@ public class Category extends AggregateRoot<CategoryId> {
             final String description
     ) {
         super(categoryId);
-        this.name = name;
-        this.description = description;
+
+        if (this.name.isEmpty()) {
+            throw DomainException.with("Name is required");
+        }
+
+        if ( this.description.isEmpty()) {
+            throw DomainException.with("Description is required");
+        }
     }
 
     public void update(
             String name,
             String description
-    ){
+    ) {
         this.name = name;
         this.description = description;
     }
