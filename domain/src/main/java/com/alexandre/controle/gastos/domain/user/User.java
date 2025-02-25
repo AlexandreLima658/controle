@@ -10,17 +10,20 @@ public class User extends AggregateRoot<UserId> {
     private UserName name;
     private Email email;
     private String password;
+    private UserRole role;
 
     public User(
             final UserId userId,
             final UserName name,
             final Email email,
-            final String password
+            final String password,
+            final UserRole role
     ) {
        super(userId);
         this.name = name;
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 
     public void update(
@@ -43,5 +46,24 @@ public class User extends AggregateRoot<UserId> {
 
     public String getPassword() {
         return password;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public enum UserRole {
+        ADMIN("admin"),
+        USER("user");
+
+        private final String role;
+
+        UserRole(final String role) {
+            this.role = role;
+        }
+
+        public String getRole() {
+            return role;
+        }
     }
 }

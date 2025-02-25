@@ -10,13 +10,15 @@ public interface UserFactory {
             final UserId userId,
             final String name,
             final String email,
-            final String password
+            final String password,
+            final User.UserRole role
     ) {
         return new User(
                 userId,
                 new UserName(name),
                 new Email(email),
-                password
+                password,
+                role
         );
     }
 
@@ -32,7 +34,8 @@ public interface UserFactory {
                 userId,
                 name,
                 email,
-                password
+                password,
+                User.UserRole.USER
         );
     }
 }
