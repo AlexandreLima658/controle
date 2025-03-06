@@ -26,7 +26,8 @@ public interface UserFactory {
     static User create(
             final UserName name,
             final Email email,
-            final String password
+            final String password,
+            final String role
     ){
         final var userId = UserId.createWithNullValue();
 
@@ -35,7 +36,7 @@ public interface UserFactory {
                 name,
                 email,
                 password,
-                User.UserRole.USER
+                User.UserRole.ADMIN
         );
     }
 }

@@ -17,14 +17,16 @@ public class LoginUseCase extends UseCase<LoginInput,LoginOutput> {
     @Override
     public LoginOutput execute(final LoginInput input) {
 
+        // todo: pegar dados de name e password do usuário cadastrado
         final var userPassword = new UsernamePasswordAuthenticationToken(
                 input.name(),
                 input.password()
         );
 
-       final var id = this.manager.authenticate(userPassword);
+        final var id = this.manager.authenticate(userPassword);
 
         return new LoginOutput(id.getName());
+
 
     }
 }
