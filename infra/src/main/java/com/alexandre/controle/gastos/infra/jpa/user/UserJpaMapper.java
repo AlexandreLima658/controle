@@ -15,8 +15,7 @@ public interface UserJpaMapper {
                 user.id().value(),
                 user.getName().value(),
                 user.getEmail().value(),
-                user.getPassword(),
-                user.getRole()
+                user.getPassword()
 
         );
     }
@@ -30,8 +29,7 @@ public interface UserJpaMapper {
                 userId,
                 jpa.getName(),
                 jpa.getEmail(),
-                jpa.getPassword(),
-                jpa.getRole()
+                jpa.getPassword()
         );
     }
 }

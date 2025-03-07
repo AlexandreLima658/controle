@@ -22,8 +22,7 @@ public class CreateUserUseCase extends UseCase<CreateUserInput, CreateUserOutput
         final var newUser = UserFactory.create(
                 new UserName(input.name()),
                 new Email(input.email()),
-                input.password(),
-                input.role()
+                input.password()
         );
 
         final var userId = this.repository.persist(newUser);

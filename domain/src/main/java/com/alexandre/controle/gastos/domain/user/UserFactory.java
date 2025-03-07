@@ -10,15 +10,14 @@ public interface UserFactory {
             final UserId userId,
             final String name,
             final String email,
-            final String password,
-            final User.UserRole role
+            final String password
+
     ) {
         return new User(
                 userId,
                 new UserName(name),
                 new Email(email),
-                password,
-                role
+                password
         );
     }
 
@@ -26,8 +25,7 @@ public interface UserFactory {
     static User create(
             final UserName name,
             final Email email,
-            final String password,
-            final String role
+            final String password
     ){
         final var userId = UserId.createWithNullValue();
 
@@ -35,8 +33,7 @@ public interface UserFactory {
                 userId,
                 name,
                 email,
-                password,
-                User.UserRole.ADMIN
+                password
         );
     }
 }
