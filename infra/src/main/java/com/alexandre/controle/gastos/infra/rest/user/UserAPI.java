@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RequestMapping(value = "users")
 @Tag(name = "Users", description = "users")
+@CrossOrigin(origins = "*")
 public interface UserAPI {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
