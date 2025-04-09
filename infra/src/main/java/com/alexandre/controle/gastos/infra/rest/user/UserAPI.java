@@ -32,7 +32,7 @@ public interface UserAPI {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
     })
     ResponseEntity<CreateUserOutput> create(@RequestBody CreateUserInput input);
-
+    
 
     @GetMapping
     @Operation(summary = "Retrieve a list of users")
