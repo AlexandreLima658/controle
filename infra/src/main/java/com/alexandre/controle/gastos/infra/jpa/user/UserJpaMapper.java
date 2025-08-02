@@ -1,11 +1,9 @@
 package com.alexandre.controle.gastos.infra.jpa.user;
 
 
-import com.alexandre.controle.gastos.domain.commons.attributes.Email;
 import com.alexandre.controle.gastos.domain.user.User;
 import com.alexandre.controle.gastos.domain.user.UserFactory;
 import com.alexandre.controle.gastos.domain.user.attributes.UserId;
-import com.alexandre.controle.gastos.domain.user.attributes.UserName;
 
 public interface UserJpaMapper {
 
@@ -19,7 +17,6 @@ public interface UserJpaMapper {
 
         );
     }
-
 
     static User toAggregate(final UserJpaEntity jpa) {
 

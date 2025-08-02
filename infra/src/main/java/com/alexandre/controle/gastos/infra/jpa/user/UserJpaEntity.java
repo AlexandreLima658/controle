@@ -1,7 +1,6 @@
 package com.alexandre.controle.gastos.infra.jpa.user;
 
 
-import com.alexandre.controle.gastos.domain.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.Accessors;
