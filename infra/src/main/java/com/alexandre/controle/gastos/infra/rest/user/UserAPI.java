@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RequestMapping(value = "users")
 @Tag(name = "Users", description = "users")
+@CrossOrigin(origins = "*")
 public interface UserAPI {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -31,7 +32,7 @@ public interface UserAPI {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
     })
     ResponseEntity<CreateUserOutput> create(@RequestBody CreateUserInput input);
-
+    
 
     @GetMapping
     @Operation(summary = "Retrieve a list of users")

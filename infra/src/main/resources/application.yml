@@ -3,6 +3,6 @@ spring:
     name: controle-de-gastos
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/controle-de-gastos?currentSchema=controle
-    username: admin
-    password: admin
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USER}
+    password: ${DATABASE_PASSWORD}

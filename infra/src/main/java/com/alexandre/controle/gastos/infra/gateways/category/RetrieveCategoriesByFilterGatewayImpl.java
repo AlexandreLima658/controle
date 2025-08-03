@@ -1,6 +1,4 @@
 package com.alexandre.controle.gastos.infra.gateways.category;
-
-
 import com.alexandre.controle.gastos.application.category.query.filter.RetrieveCategoriesByFilterGateway;
 import com.alexandre.controle.gastos.application.category.query.filter.RetrieveCategoriesByFilterInput;
 import com.alexandre.controle.gastos.application.category.query.filter.RetrieveCategoriesByFilterOutput;
@@ -21,7 +19,8 @@ import static org.springframework.data.domain.Sort.Direction.fromString;
 public class RetrieveCategoriesByFilterGatewayImpl implements RetrieveCategoriesByFilterGateway {
 
     private final EntityManager entityManager;
-    private final QCategoryJpaEntity qCategoryJpaEntity = QCategoryJpaEntity.categoryJpaEntity;
+    private final QCategoryJpaEntity qCategoryJpaEntity  = QCategoryJpaEntity.categoryJpaEntity;
+
 
     public RetrieveCategoriesByFilterGatewayImpl(final EntityManager entityManager) {
         this.entityManager = entityManager;
@@ -36,13 +35,13 @@ public class RetrieveCategoriesByFilterGatewayImpl implements RetrieveCategories
                 Sort.by(fromString(input.sortDirection()), input.sortBy())
         );
 
-        var query = new JPAQuery<Void>(entityManager);
+       var query = new JPAQuery<Void>(entityManager);
 
         final var category = query.select(qCategoryJpaEntity)
                 .from(qCategoryJpaEntity)
                 .fetch();
 
-        query = new JPAQuery<>(entityManager);
+      query = new JPAQuery<>(entityManager);
 
         final var total = query.select(qCategoryJpaEntity.count())
                 .from(qCategoryJpaEntity)
@@ -52,7 +51,8 @@ public class RetrieveCategoriesByFilterGatewayImpl implements RetrieveCategories
                 input.page(),
                 input.perPage(),
                 Optional.ofNullable(total).orElse(0L),
-                category.stream().map(this::mapperFrom).toList()
+                category.stream()
+                        .map(this::mapperFrom).toList()
         );
     }
 

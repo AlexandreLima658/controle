@@ -2,7 +2,9 @@ package com.alexandre.controle.gastos.infra.jpa.category;
 
 import com.alexandre.controle.gastos.domain.category.Category;
 import com.alexandre.controle.gastos.domain.category.CategoryFactory;
+import com.alexandre.controle.gastos.domain.category.attributes.CategoryDescription;
 import com.alexandre.controle.gastos.domain.category.attributes.CategoryId;
+import com.alexandre.controle.gastos.domain.category.attributes.CategoryName;
 
 public interface CategoryJpaMapper {
 
@@ -10,8 +12,8 @@ public interface CategoryJpaMapper {
 
         return new CategoryJpaEntity(
                 category.id().value(),
-                category.getName(),
-                category.getDescription()
+                category.getName().value(),
+                category.getDescription().value()
         );
     }
 
@@ -21,8 +23,8 @@ public interface CategoryJpaMapper {
 
         return CategoryFactory.create(
                 categoryId,
-                jpa.getName(),
-                jpa.getDescription()
+                new CategoryName(jpa.getName()),
+                new CategoryDescription(jpa.getDescription())
         );
     }
 }

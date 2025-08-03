@@ -22,7 +22,7 @@ public interface ExpenseJpaMapper {
                 expense.id().value(),
                 expense.getValue().value(),
                 expense.getDescription(),
-                expense.getStatus(),
+                expense.getPaymentDate(),
                 user,
                 category
 
@@ -42,7 +42,7 @@ public interface ExpenseJpaMapper {
                 categoryId,
                 jpa.getValue(),
                 jpa.getDescription(),
-                jpa.getStatus()
+                jpa.getPaymentDate()
 
         );
     }

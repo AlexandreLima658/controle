@@ -4,13 +4,14 @@ import com.alexandre.controle.gastos.application.expense.commands.update.UpdateE
 import com.alexandre.controle.gastos.domain.expense.Expense;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 public record UpdateExpenseHttpRequest(
         Long userId,
         Long categoryId,
         BigDecimal value,
         String description,
-        Expense.PaymentStatus status
+        LocalDate paymentDate
 ) {
 
     public UpdateExpenseInput toInput(final Long expenseId) {
@@ -21,7 +22,7 @@ public record UpdateExpenseHttpRequest(
                 categoryId,
                 value,
                 description,
-                status
+                paymentDate
         );
     }
 }

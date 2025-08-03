@@ -66,7 +66,7 @@ public class RetrieveExpensesByFilterGatewayImpl implements RetrieveExpenseByFil
                 jpa.getCategory().getId(),
                 jpa.getValue(),
                 jpa.getDescription(),
-                jpa.getStatus()
+                jpa.getPaymentDate()
         );
     }
 }

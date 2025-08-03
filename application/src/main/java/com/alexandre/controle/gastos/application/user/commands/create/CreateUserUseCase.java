@@ -19,13 +19,13 @@ public class CreateUserUseCase extends UseCase<CreateUserInput, CreateUserOutput
     @Override
     public CreateUserOutput execute(final CreateUserInput input) {
 
-        final var user = UserFactory.create(
+        final var newUser = UserFactory.create(
                 new UserName(input.name()),
                 new Email(input.email()),
                 input.password()
         );
 
-        final var userId = this.repository.persist(user);
+        final var userId = this.repository.persist(newUser);
 
         return new CreateUserOutput(userId.value());
     }

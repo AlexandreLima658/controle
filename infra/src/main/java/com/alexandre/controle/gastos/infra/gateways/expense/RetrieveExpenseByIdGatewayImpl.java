@@ -49,7 +49,7 @@ public class RetrieveExpenseByIdGatewayImpl implements RetrieveExpenseByIdGatewa
                 jpa.getCategory().getId(),
                 jpa.getValue(),
                 jpa.getDescription(),
-                jpa.getStatus()
+                jpa.getPaymentDate()
         );
     }
 }
